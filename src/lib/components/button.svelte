@@ -5,7 +5,7 @@
 	const buttonVariants = cva('text-white rounded-full', {
 		variants: {
 			variant: {
-				primary: 'bg-primary hover:bg-blue-800',
+				primary: 'bg-primary hover:bg-primary-300',
 				secondary: 'bg-neutral-800'
 			},
 			size: {
