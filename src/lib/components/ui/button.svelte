@@ -7,7 +7,7 @@
 		{
 			variants: {
 				variant: {
-					primary: 'bg-primary hover:bg-primary-300 active:ring active:ring-primary',
+					primary: 'bg-primary hover:bg-primary-300',
 					secondary: 'bg-neutral-800'
 				},
 				size: {

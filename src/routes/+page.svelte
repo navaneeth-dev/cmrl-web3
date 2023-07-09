@@ -8,7 +8,7 @@
 	const stations = stationList.map((s) => s.Station_ShortName);
 </script>
 
-<main class="h-screen flex flex-col items-center justify-center">
+<main class="h-screen flex flex-col items-center justify-center px-2 max-w-screen-sm mx-auto">
 	<form action="" method="post" class="flex flex-col gap-16">
 		<h1 class="font-bold text-2xl text-center">Book Your Ticket <Ticket /></h1>
 		<div class="flex flex-col gap-5">
