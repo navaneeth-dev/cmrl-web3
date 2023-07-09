@@ -13,11 +13,11 @@
 		<h1 class="font-bold text-2xl text-center">Book Your Ticket <Ticket /></h1>
 		<div class="flex flex-col gap-5">
 			<div>
-				<p>Origin:</p>
+				<p class="mb-6">Origin:</p>
 				<Select values={stations} />
 			</div>
 			<div>
-				<p>Destination:</p>
+				<p class="mb-6">Destination:</p>
 				<Select values={stations} />
 			</div>
 		</div>
