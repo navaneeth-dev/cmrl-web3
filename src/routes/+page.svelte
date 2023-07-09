@@ -4,6 +4,7 @@
 	import Cart from '$lib/icons/Cart.svelte';
 	import Select from '$lib/components/ui/select.svelte';
 	import { stationList } from '$lib/stationlist';
+	import WalletConnect from '$lib/components/wallet-connect.svelte';
 
 	const stations = stationList.map((s) => s.Station_ShortName);
 </script>
@@ -23,5 +24,5 @@
 		</div>
 		<Button>Make Payment <Cart /></Button>
 	</form>
-	<button class="hover:opacity-75">Connect Wallet</button>
+	<WalletConnect />
 </main>
