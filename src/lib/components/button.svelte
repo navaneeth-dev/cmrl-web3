@@ -2,7 +2,7 @@
 	import type { HTMLButtonAttributes } from 'svelte/elements';
 	import { cva, type VariantProps } from 'class-variance-authority';
 
-	const buttonVariants = cva('text-white rounded-full', {
+	const buttonVariants = cva('text-white rounded-full transition-colors', {
 		variants: {
 			variant: {
 				primary: 'bg-primary hover:bg-primary-300',
