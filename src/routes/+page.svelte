@@ -10,7 +10,7 @@
 
 <main class="h-screen flex flex-col items-center justify-center">
 	<form action="" method="post" class="flex flex-col gap-16">
-		<h1 class="font-bold text-2xl flex gap-2 text-center">Book Your Ticket <Ticket /></h1>
+		<h1 class="font-bold text-2xl text-center">Book Your Ticket <Ticket /></h1>
 		<div class="flex flex-col gap-5">
 			<div>
 				<p>Origin:</p>
