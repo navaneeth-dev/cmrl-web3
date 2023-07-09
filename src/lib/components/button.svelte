@@ -1,0 +1,25 @@
+<script lang="ts">
+	import type { HTMLButtonAttributes } from 'svelte/elements';
+	import { cva, type VariantProps } from 'class-variance-authority';
+
+	const buttonVariants = cva('text-white rounded-full', {
+		variants: {
+			variant: {
+				primary: 'bg-primary hover:bg-blue-800',
+				secondary: 'bg-neutral-800'
+			},
+			size: {
+				small: 'h-[20px] px-1',
+				medium: 'h-[45px] px-4'
+			}
+		}
+	});
+
+	interface $$Props extends HTMLButtonAttributes, VariantProps<typeof buttonVariants> {}
+	export let variant: $$Props['variant'] = 'primary';
+	export let size: $$Props['size'] = 'medium';
+</script>
+
+<button {...$$props} class={buttonVariants({ variant, size })}>
+	<slot />
+</button>
