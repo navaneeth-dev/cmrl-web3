@@ -33,6 +33,7 @@
 	"type": "module",
 	"dependencies": {
 		"@fontsource/outfit": "^5.0.5",
-		"class-variance-authority": "^0.6.1"
+		"class-variance-authority": "^0.6.1",
+		"ethers": "^6.6.2"
 	}
 }
