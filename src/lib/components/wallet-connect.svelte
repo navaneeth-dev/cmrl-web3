@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { ethers } from 'ethers';
+	import { onMount } from 'svelte';
 	let account: string;
 
 	const connectWallet = async () => {
@@ -7,6 +8,10 @@
 		const signer = await provider.getSigner();
 		account = await signer.getAddress();
 	};
+
+	onMount(() => {
+		connectWallet();
+	});
 </script>
 
 {#if !account}
