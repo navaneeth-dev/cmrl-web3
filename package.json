@@ -33,7 +33,9 @@
 	"type": "module",
 	"dependencies": {
 		"@fontsource/outfit": "^5.0.5",
+		"chrome-aws-lambda": "^10.1.0",
 		"class-variance-authority": "^0.6.1",
-		"ethers": "^6.6.2"
+		"ethers": "^6.6.2",
+		"puppeteer-core": "^20.8.1"
 	}
 }
