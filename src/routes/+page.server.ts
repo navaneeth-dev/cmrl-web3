@@ -13,13 +13,14 @@ export const actions = {
 		const response = await fetch(env.PUBLIC_BITCART_URL + '/api/invoices', {
 			method: 'POST',
 			headers: {
-				'Content-Type': 'application/json',
-				Authorization: 'q6ed4m_cNn6Ni0W3x3TTldDM5dTWtxz2uO7rTcME4q4'
+				'Content-Type': 'application/json'
 			},
 			body: JSON.stringify(invoiceCreation)
 		});
 
 		const data = await response.json();
+
+		console.log(data);
 		const id = data.id;
 
 		return { id };
