@@ -4,7 +4,7 @@
 </script>
 
 <svelte:head>
-	<script src={PUBLIC_BITCART_URL + '/admin/modal/bitcart.js'} defer></script>
+	<script src={PUBLIC_BITCART_URL + '/admin/modal/bitcart.js'}></script>
 </svelte:head>
 
 <slot />
