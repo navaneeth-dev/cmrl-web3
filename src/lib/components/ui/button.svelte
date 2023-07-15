@@ -1,6 +1,7 @@
 <script lang="ts">
 	import type { HTMLButtonAttributes } from 'svelte/elements';
 	import { cva, type VariantProps } from 'class-variance-authority';
+	import Spinner from '$lib/icons/Spinner.svelte';
 
 	const buttonVariants = cva(
 		'text-white rounded-full flex items-center justify-center gap-1 transition-[background-color,box-shadow] disabled:cursor-not-allowed',
@@ -18,11 +19,18 @@
 		}
 	);
 
-	interface $$Props extends HTMLButtonAttributes, VariantProps<typeof buttonVariants> {}
+	interface $$Props extends HTMLButtonAttributes, VariantProps<typeof buttonVariants> {
+		loading: boolean;
+	}
 	export let variant: $$Props['variant'] = 'primary';
 	export let size: $$Props['size'] = 'medium';
+	export let loading = false;
 </script>
 
 <button on:click {...$$props} class={buttonVariants({ variant, size })}>
-	<slot />
+	{#if loading}
+		<Spinner />
+	{:else}
+		<slot />
+	{/if}
 </button>
