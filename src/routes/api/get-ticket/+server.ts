@@ -4,18 +4,18 @@ import { env } from '$env/dynamic/private';
 import { env as publicEnv } from '$env/dynamic/public';
 
 export const POST = (async ({ request }) => {
-	const data = await request.json();
-	console.log(data);
+	// const data = await request.json();
+	// console.log(data);
 
-	// Check invoice id via API
-	const response = await fetch(publicEnv.PUBLIC_BITCART_URL + '/api/invoices/' + data.id);
-	const invoice = await response.json();
-	console.log(invoice);
+	// // Check invoice id via API
+	// const response = await fetch(publicEnv.PUBLIC_BITCART_URL + '/api/invoices/' + data.id);
+	// const invoice = await response.json();
+	// console.log(invoice);
 
-	if (invoice.status !== 'complete')
-		return new Response('WebHook cannot run, status is not complete');
+	// if (invoice.status !== 'complete')
+	// 	return new Response('WebHook cannot run, status is not complete');
 
-	return new Response('Test');
+	// return new Response('Test');
 
 	const initiatePaymentUrl = 'https://tickets.chennaimetrorail.org/';
 
@@ -74,7 +74,16 @@ export const POST = (async ({ request }) => {
 	payBtn.click();
 
 	// Wait 5mins for payment
-	await new Promise((r) => setTimeout(r, 5 * 60 * 1000));
+	// await new Promise((r) => setTimeout(r, 60 * 1000));
+	await page.waitForNavigation();
+	await page.waitForNetworkIdle();
+
+	// Get ticket image
+	const imgBase64: string = await page.evaluate(
+		`document.querySelector("div > div.col-md-5.col-sm-5.col-5 > div:nth-child(1) > img").getAttribute('src')`
+	);
 
 	await browser.close();
+
+	return new Response(imgBase64);
 }) satisfies RequestHandler;
