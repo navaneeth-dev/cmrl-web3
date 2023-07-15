@@ -6,12 +6,12 @@ const tokenFromUI = 'UjA%C*F-JaN7x!A%D*G-KamQeThWmZq4';
 export function getEncrypt(Z: object) {
 	// Generate random IV from strings
 	const R = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890abcdefghijklmnopqrstuvwxyz,./;'[]=-)(*&^%$#@!~`";
-	const V = 'D/V/r2IlW2' || makeRandom(10, R);
+	const V = makeRandom(10, R);
 	const tokenFromIV = makeRandom(16, R);
 
-	const G = ']`n.b`P' || makeRandom(7, R);
+	const G = makeRandom(7, R);
 	const key = tokenFromUI;
-	const iv = "u'!`'C*RWW=YsoAe" || tokenFromIV;
+	const iv = tokenFromIV;
 
 	console.log(key);
 	console.log(iv);
@@ -24,7 +24,6 @@ export function getEncrypt(Z: object) {
 	cipher.update(data);
 	cipher.finish();
 	const encryptedStr = forge.util.encode64(cipher.output.getBytes());
-	console.log(encryptedStr);
 
 	const z = btoa(V + iv + G + encryptedStr);
 	return z;
