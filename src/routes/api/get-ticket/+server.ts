@@ -27,13 +27,24 @@ export const POST = (async () => {
 	await page.waitForSelector('body > ngb-modal-window > div > div > div.modal-footer > button');
 	await page.click('body > ngb-modal-window > div > div > div.modal-footer > button');
 
+	await page.waitForSelector('body > bd-modal');
+
 	// Select UPI, type cast here as open issue in GitHub
+	await page.waitForFunction(
+		'document.querySelector("body > bd-modal").shadowRoot.querySelector("#pay-option-item_wrapper > div > bd-pay-option > div > div")'
+	);
+
 	const upiDiv = (await (
 		await page.evaluateHandle(
-			`document.querySelector("body > bd-modal").shadowRoot.querySelector("#pay-option-item_wrapper > div > bd-pay-option > div > div")`
+			'document.querySelector("body > bd-modal").shadowRoot.querySelector("bd-section:nth-child(3) #pay-option-item_wrapper > div > bd-pay-option > div > div")'
 		)
 	).asElement()) as ElementHandle<Element>;
 	await upiDiv?.click();
+
+	// Wait for UPI VPA input
+	await page.waitForFunction(
+		'document.querySelector("body > bd-modal").shadowRoot.querySelector("#upi_vpa")'
+	);
 
 	const upiVpa = (await (
 		await page.evaluateHandle(
@@ -42,7 +53,15 @@ export const POST = (async () => {
 	).asElement()) as ElementHandle<Element>;
 	await upiVpa.type(env.UPI_VPA);
 
-	await new Promise((r) => setTimeout(r, 2000));
+	const payBtn = (await (
+		await page.evaluateHandle(
+			`document.querySelector("body > bd-modal").shadowRoot.querySelector("#undefined_wrapper > div > bd-button > div > center > button")`
+		)
+	).asElement()) as ElementHandle<Element>;
+	payBtn.click();
+
+	// Wait 5mins for payment
+	await new Promise((r) => setTimeout(r, 5 * 60 * 1000));
 
 	await browser.close();
 
