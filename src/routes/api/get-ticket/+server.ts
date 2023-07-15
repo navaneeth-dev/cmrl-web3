@@ -3,7 +3,11 @@ import type { RequestHandler } from './$types';
 import puppeteer, { ElementHandle } from 'puppeteer';
 import { env } from '$env/dynamic/private';
 
-export const POST = (async () => {
+export const POST = (async ({ request }) => {
+	const data = await request.json();
+	console.log(data);
+	return new Response('Test');
+
 	const initiatePaymentUrl = 'https://tickets.chennaimetrorail.org/';
 
 	const browser = await puppeteer.launch({ headless: false });
@@ -64,6 +68,4 @@ export const POST = (async () => {
 	await new Promise((r) => setTimeout(r, 5 * 60 * 1000));
 
 	await browser.close();
-
-	return new Response('Test');
 }) satisfies RequestHandler;
