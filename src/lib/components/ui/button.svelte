@@ -23,6 +23,6 @@
 	export let size: $$Props['size'] = 'medium';
 </script>
 
-<button {...$$props} class={buttonVariants({ variant, size })}>
+<button on:click {...$$props} class={buttonVariants({ variant, size })}>
 	<slot />
 </button>
