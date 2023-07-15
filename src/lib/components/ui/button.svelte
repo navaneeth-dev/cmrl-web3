@@ -3,7 +3,7 @@
 	import { cva, type VariantProps } from 'class-variance-authority';
 
 	const buttonVariants = cva(
-		'text-white rounded-full flex items-center justify-center gap-1 transition-[background-color,box-shadow]',
+		'text-white rounded-full flex items-center justify-center gap-1 transition-[background-color,box-shadow] disabled:cursor-not-allowed',
 		{
 			variants: {
 				variant: {
