@@ -5,8 +5,8 @@ export const actions = {
 	default: async (event) => {
 		const invoiceCreation = {
 			price: 5,
-			store_id: env.PUBLIC_BITCART_STORE_ID
-			// notification_url: 'https://webhook.after.checkout.com/goeshere',
+			store_id: env.PUBLIC_BITCART_STORE_ID,
+			notification_url: env.PUBLIC_ORIGIN + '/api/get-ticket'
 			// redirect_url: 'https://go.here.after.checkout.com'
 		};
 
