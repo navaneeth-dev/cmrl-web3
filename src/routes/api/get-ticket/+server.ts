@@ -1,29 +1,50 @@
 import { decryptResponse, getEncrypt } from '$lib/server/utils';
 import type { RequestHandler } from './$types';
-import puppeteer from 'puppeteer';
+import puppeteer, { ElementHandle } from 'puppeteer';
+import { env } from '$env/dynamic/private';
 
 export const POST = (async () => {
-	// const a = getEncrypt({
-	// 	sourceStationId: '0231',
-	// 	destinationStationId: '0133',
-	// 	mediaTypeId: 'C3',
-	// 	vendorId: '01',
-	// 	passengerTypeId: '01'
-	// });
-	const a = decryptResponse(
-		'dFZMVnojZ3dURjVKbmNmbHVUOHJuTWcxQG1uSjcwU3l1ZDIyU29pcnp5Ukc2Y0RyTUJSelhvbzc2azZyNUJwamI1MlI1NDRENm13RmY3MHMyTFVtOGVzc3B5OG0rRU9JcklKaTBwZVg0L0xxYk40alpxREZwR1NqUE40b0JKeDcwcCtHM0E1K290YitIZDRITzRGR2xGK3Q3ckMrbjdSMElwaERycU5SMEZzUEVWLzhqdHdKbitRd2R5TU5wUmRPdGthczFpZGI2Uzh2NFlTdUdsTEF2Rlp4akgvY3k0NXk2YTdBQU5RRlUyWm5ZRk1pdGVyVlp0S0JVbzVzbk01UmpPUlNsTTIrcGFrRT0='
-	);
-	console.log(a.message);
-	// const browser = await puppeteer.launch({ headless: 'new' });
+	const initiatePaymentUrl = 'https://tickets.chennaimetrorail.org/';
 
-	// const page = await browser.newPage();
+	const browser = await puppeteer.launch({ headless: false });
 
-	// await page.goto('https://example.com');
+	const page = await browser.newPage();
 
-	// const title = await page.title();
-	// const content = await page.content();
+	await page.goto(initiatePaymentUrl);
 
-	// await browser.close();
+	const sourceStationId = '0213';
+	const destStationId = '0215';
 
-	return new Response(a);
+	await page.select('#login > form > div:nth-child(1) > select', sourceStationId);
+	await page.select('#login > form > div:nth-child(2) > select', destStationId);
+
+	// Mobile No
+	await page.type('#login > form > div:nth-child(3) > input', '1111111111');
+
+	// Submit
+	await page.click('#login > form > div:nth-child(6) > button');
+
+	await page.waitForSelector('body > ngb-modal-window > div > div > div.modal-footer > button');
+	await page.click('body > ngb-modal-window > div > div > div.modal-footer > button');
+
+	// Select UPI, type cast here as open issue in GitHub
+	const upiDiv = (await (
+		await page.evaluateHandle(
+			`document.querySelector("body > bd-modal").shadowRoot.querySelector("#pay-option-item_wrapper > div > bd-pay-option > div > div")`
+		)
+	).asElement()) as ElementHandle<Element>;
+	await upiDiv?.click();
+
+	const upiVpa = (await (
+		await page.evaluateHandle(
+			`document.querySelector("body > bd-modal").shadowRoot.querySelector("#upi_vpa")`
+		)
+	).asElement()) as ElementHandle<Element>;
+	await upiVpa.type(env.UPI_VPA);
+
+	await new Promise((r) => setTimeout(r, 2000));
+
+	await browser.close();
+
+	return new Response('Test');
 }) satisfies RequestHandler;
