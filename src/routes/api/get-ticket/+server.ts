@@ -1,14 +1,14 @@
 import type { RequestHandler } from './$types';
 import puppeteer, { ElementHandle } from 'puppeteer';
 import { env } from '$env/dynamic/private';
-import { PUBLIC_BITCART_URL } from '$env/static/public';
+import { env as publicEnv } from '$env/dynamic/public';
 
 export const POST = (async ({ request }) => {
 	const data = await request.json();
 	console.log(data);
 
 	// Check invoice id via API
-	const response = await fetch(PUBLIC_BITCART_URL + '/api/invoices/' + data.id);
+	const response = await fetch(publicEnv.PUBLIC_BITCART_URL + '/api/invoices/' + data.id);
 	const invoice = await response.json();
 	console.log(invoice);
 
