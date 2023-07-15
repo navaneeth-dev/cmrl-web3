@@ -3,7 +3,13 @@ import type { RequestHandler } from './$types';
 import puppeteer from 'puppeteer';
 
 export const POST = (async () => {
-	const a = getEncrypt({ hello: 'world' });
+	const a = getEncrypt({
+		sourceStationId: '0231',
+		destinationStationId: '0133',
+		mediaTypeId: 'C3',
+		vendorId: '01',
+		passengerTypeId: '01'
+	});
 	console.log(a);
 	// const browser = await puppeteer.launch({ headless: 'new' });
 
@@ -16,5 +22,5 @@ export const POST = (async () => {
 
 	// await browser.close();
 
-	return new Response('Test');
+	return new Response(a);
 }) satisfies RequestHandler;
