@@ -35,19 +35,29 @@ function makeRandom(Z, R) {
 	return V;
 }
 
-// function decryptResponse(Z) {
-// 	const R = atob(Z);
-// 	G = R.substring(0, 10);
-// 	R.substring(10, 26);
-// 	B = R.substring(26, 33);
-// 	R.substring(33);
-// 	let j = i.enc.Utf8.parse(this.tokenFromUI);
-// 	z = i.enc.Utf8.parse(G);
+export function decryptResponse(Z: string) {
+	// Decode base64 str
+	const R = atob(Z);
 
-// 	return i.AES.decrypt(B, j, {
-// 		keySize: 32,
-// 		iv: z,
-// 		mode: i.mode.CBC,
-// 		padding: i.pad.Pkcs7
-// 	}).toString(i.enc.Utf8);
-// }
+	const iv = R.substring(10, 26);
+	const encryptedB64Str = R.substring(33);
+	const encryptedAes = forge.util.createBuffer(forge.util.decode64(encryptedB64Str));
+	console.log(encryptedAes);
+
+	// return i.AES.decrypt(B, j, {
+	// 	keySize: 32,
+	// 	iv: z,
+	// 	mode: i.mode.CBC,
+	// 	padding: i.pad.Pkcs7
+	// }).toString(i.enc.Utf8);
+
+	const decipher = forge.cipher.createDecipher('AES-CBC', tokenFromUI);
+	decipher.start({ iv });
+	decipher.update(encryptedAes);
+
+	const success = decipher.finish(); // check 'result' for true/false
+	if (!success) return { success, message: 'Error' };
+
+	const message = forge.util.encodeUtf8(decipher.output.getBytes());
+	return { success, message };
+}
