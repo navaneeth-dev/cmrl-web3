@@ -4,7 +4,7 @@ import { env } from '$env/dynamic/public';
 export const actions = {
 	default: async (event) => {
 		const invoiceCreation = {
-			price: 5,
+			price: 1,
 			store_id: env.PUBLIC_BITCART_STORE_ID,
 			notification_url: env.PUBLIC_ORIGIN + '/api/get-ticket'
 			// redirect_url: 'https://go.here.after.checkout.com'
