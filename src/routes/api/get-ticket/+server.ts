@@ -26,7 +26,7 @@ export const POST = (async ({ request }) => {
 
 	const browser = await puppeteer.launch({
 		headless: 'new',
-		executablePath: '/usr/bin/google-chrome',
+		executablePath: env.FLY_REGION ? '/usr/bin/google-chrome' : undefined,
 		args: ['--no-sandbox']
 	});
 
