@@ -18,6 +18,13 @@
 
 	const pay = (id: string) => window.bitcart.showInvoice(id);
 
+	onMount(() => {
+		window.bitcart.onModalWillEnter((test) => {
+			console.log(test);
+		});
+		window.bitcart.onModalWillLeave((test) => console.log);
+	});
+
 	const handleSubmit: SubmitFunction = () => {
 		submitting = true;
 
