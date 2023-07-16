@@ -1,6 +1,7 @@
+FROM docker.io/zenika/alpine-chrome:with-node
+
 LABEL fly_launch_runtime="Node.js"
 
-FROM docker.io/zenika/alpine-chrome:with-node
 RUN npm i -g pnpm
 
 ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD 1
