@@ -12,6 +12,5 @@ WORKDIR /usr/src/app
 COPY --chown=chrome package.json pnpm-lock.yaml ./
 RUN pnpm install
 COPY --chown=chrome . ./
-ENTRYPOINT ["tini", "--"]
 EXPOSE 3000
 CMD ["node", "build"]
