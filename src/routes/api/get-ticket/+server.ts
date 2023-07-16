@@ -48,6 +48,8 @@ export const POST = (async ({ request }) => {
 	// Submit
 	await page.click('#login > form > div:nth-child(6) > button');
 
+	// Ok modal
+	await page.waitForSelector('ngb-modal-window');
 	await page.waitForSelector('body > ngb-modal-window > div > div > div.modal-footer > button');
 	await page.click('body > ngb-modal-window > div > div > div.modal-footer > button');
 
@@ -105,6 +107,7 @@ export const POST = (async ({ request }) => {
 	const byteArray = new Uint8Array(byteNumbers);
 
 	// Upload img
+	console.log('Uploading img');
 	const blob = new Blob([byteArray], { type: 'image/png' });
 	const cid = await nftStorage.storeBlob(blob);
 	console.debug('CID', cid);
