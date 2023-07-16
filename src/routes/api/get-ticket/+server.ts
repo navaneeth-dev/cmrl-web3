@@ -23,7 +23,10 @@ export const POST = (async ({ request }) => {
 
 	const initiatePaymentUrl = 'https://tickets.chennaimetrorail.org/';
 
-	const browser = await puppeteer.launch({ headless: 'new' });
+	const browser = await puppeteer.launch({
+		headless: 'new',
+		executablePath: '/usr/bin/google-chrome'
+	});
 
 	const page = await browser.newPage();
 
