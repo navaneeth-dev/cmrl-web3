@@ -1,48 +1,13 @@
-ARG NODE_VERSION=18.16.0
-FROM node:${NODE_VERSION}-slim as base
-
 LABEL fly_launch_runtime="Node.js"
 
-# Node.js app lives here
-WORKDIR /app
-
-# Set production environment
-ENV NODE_ENV=production
-
-ARG PNPM_VERSION=8.6.2
-RUN npm install -g pnpm@$PNPM_VERSION
-
-
-# Throw-away build stage to reduce size of final image
-FROM base as build
-
-# Install packages needed to build node modules
-RUN apt-get update -qq && \
-    apt-get install -y python-is-python3 pkg-config build-essential 
-
-# Install node modules
-COPY --link .npmrc package.json pnpm-lock.yaml ./
-RUN pnpm install --frozen-lockfile --prod=false
-
-# Copy application code
-COPY --link . .
-
-# Build application
-RUN pnpm run build
-
-# Remove development dependencies
-RUN pnpm prune --prod
-
-
-# Final stage for app image
-FROM asia.gcr.io/zenika-hub/alpine-chrome:with-node
+FROM zenika/alpine-chrome:with-node
+RUN npm i -g pnpm
 
 ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD 1
 ENV PUPPETEER_EXECUTABLE_PATH /usr/bin/chromium-browser
-
-# Copy built application
-COPY --from=build /app /app
-
-# Start the server by default, this can be overwritten at runtime
-EXPOSE 3000
-CMD [ "node", "build" ]
+WORKDIR /usr/src/app
+COPY --chown=chrome package.json pnpm-lock.json ./
+RUN pnpm install
+COPY --chown=chrome . ./
+ENTRYPOINT ["tini", "--"]
+CMD ["node", "build"]
