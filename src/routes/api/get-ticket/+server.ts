@@ -4,28 +4,14 @@ import { env } from '$env/dynamic/private';
 import { env as publicEnv } from '$env/dynamic/public';
 import { NFTStorage } from 'nft.storage';
 
-const client = new NFTStorage({ token: env.NFT_STORAGE_TOKEN });
+const nftStorage = new NFTStorage({ token: env.NFT_STORAGE_TOKEN });
 
 export const POST = (async ({ request }) => {
 	const data = await request.json();
 
-	// Check invoice id via API
+	// Verify invoice id via API
 	const response = await fetch(publicEnv.PUBLIC_BITCART_URL + '/api/invoices/' + data.id);
 	const invoice = await response.json();
-
-	const updateInvoice = await fetch(
-		publicEnv.PUBLIC_BITCART_URL + '/api/invoices/' + data.id + '/customer',
-		{
-			method: 'PATCH',
-			headers: {
-				'Content-Type': 'application/json'
-			},
-			body: JSON.stringify({ notes: 'sdfsdf' })
-		}
-	);
-	const json = await updateInvoice.json();
-	console.log(json);
-	return new Response('Already generated');
 
 	if (invoice.status !== 'complete')
 		return new Response('WebHook cannot run, status is not complete');
@@ -97,11 +83,38 @@ export const POST = (async ({ request }) => {
 	await page.waitForNetworkIdle();
 
 	// Get ticket image
-	const imgBase64: string = await page.evaluate(
+	const imgBase64 = (await page.evaluate(
 		`document.querySelector("div > div.col-md-5.col-sm-5.col-5 > div:nth-child(1) > img").getAttribute('src')`
-	);
+	)) as string;
 
 	await browser.close();
+
+	// Convert b64 str to Blob for uploading img
+	const byteCharacters = atob(imgBase64);
+	const byteNumbers = new Array(byteCharacters.length);
+	for (let i = 0; i < byteCharacters.length; i++) {
+		byteNumbers[i] = byteCharacters.charCodeAt(i);
+	}
+	const byteArray = new Uint8Array(byteNumbers);
+
+	// Upload img
+	const blob = new Blob([byteArray], { type: 'image/png' });
+	const cid = await nftStorage.storeBlob(blob);
+	console.debug('CID', cid);
+
+	// Update CID in Notes
+	const updateInvoice = await fetch(
+		publicEnv.PUBLIC_BITCART_URL + '/api/invoices/' + data.id + '/customer',
+		{
+			method: 'PATCH',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify({ notes: cid })
+		}
+	);
+	const json = await updateInvoice.json();
+	console.log('Updated CID', json.id);
 
 	return new Response(imgBase64);
 }) satisfies RequestHandler;
