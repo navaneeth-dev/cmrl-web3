@@ -12,6 +12,7 @@ export const POST = (async ({ request }) => {
 	// Verify invoice id via API
 	const response = await fetch(publicEnv.PUBLIC_BITCART_URL + '/api/invoices/' + data.id);
 	const invoice = await response.json();
+	console.log('Called');
 
 	if (invoice.status !== 'complete')
 		return new Response('WebHook cannot run, status is not complete');
@@ -32,6 +33,8 @@ export const POST = (async ({ request }) => {
 	const page = await browser.newPage();
 
 	await page.goto(initiatePaymentUrl);
+
+	console.log('Page loaded');
 
 	const sourceStationId = '0213';
 	const destStationId = '0215';
