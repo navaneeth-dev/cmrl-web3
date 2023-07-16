@@ -19,8 +19,6 @@ export const actions = {
 		});
 
 		const data = await response.json();
-
-		console.log(data);
 		const id = data.id;
 
 		return { id };
