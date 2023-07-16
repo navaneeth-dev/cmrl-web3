@@ -2,20 +2,38 @@ import type { RequestHandler } from './$types';
 import puppeteer, { ElementHandle } from 'puppeteer';
 import { env } from '$env/dynamic/private';
 import { env as publicEnv } from '$env/dynamic/public';
+import { NFTStorage } from 'nft.storage';
+
+const client = new NFTStorage({ token: env.NFT_STORAGE_TOKEN });
 
 export const POST = (async ({ request }) => {
-	// const data = await request.json();
-	// console.log(data);
+	const data = await request.json();
 
-	// // Check invoice id via API
-	// const response = await fetch(publicEnv.PUBLIC_BITCART_URL + '/api/invoices/' + data.id);
-	// const invoice = await response.json();
-	// console.log(invoice);
+	// Check invoice id via API
+	const response = await fetch(publicEnv.PUBLIC_BITCART_URL + '/api/invoices/' + data.id);
+	const invoice = await response.json();
 
-	// if (invoice.status !== 'complete')
-	// 	return new Response('WebHook cannot run, status is not complete');
+	const updateInvoice = await fetch(
+		publicEnv.PUBLIC_BITCART_URL + '/api/invoices/' + data.id + '/customer',
+		{
+			method: 'PATCH',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify({ notes: 'sdfsdf' })
+		}
+	);
+	const json = await updateInvoice.json();
+	console.log(json);
+	return new Response('Already generated');
 
-	// return new Response('Test');
+	if (invoice.status !== 'complete')
+		return new Response('WebHook cannot run, status is not complete');
+
+	// If not blank return
+	if (invoice.notes !== '') return new Response('Already generated');
+
+	// Get ticket only if first time and status complete
 
 	const initiatePaymentUrl = 'https://tickets.chennaimetrorail.org/';
 
