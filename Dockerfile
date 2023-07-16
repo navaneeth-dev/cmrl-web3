@@ -35,7 +35,7 @@ RUN pnpm prune --prod
 
 
 # Final stage for app image
-FROM zenika/alpine-chrome:with-node
+FROM asia.gcr.io/zenika-hub/alpine-chrome:with-node
 
 ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD 1
 ENV PUPPETEER_EXECUTABLE_PATH /usr/bin/chromium-browser
