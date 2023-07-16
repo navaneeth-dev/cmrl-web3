@@ -27,14 +27,13 @@ export const POST = (async ({ request }) => {
 	const browser = await puppeteer.launch({
 		headless: 'new',
 		executablePath: env.FLY_REGION ? '/usr/bin/google-chrome' : undefined,
+		devtools: true,
 		args: ['--no-sandbox']
 	});
 
 	const page = await browser.newPage();
 
 	await page.goto(initiatePaymentUrl);
-
-	console.log('Page loaded');
 
 	const sourceStationId = '0213';
 	const destStationId = '0215';
@@ -49,9 +48,9 @@ export const POST = (async ({ request }) => {
 	await page.click('#login > form > div:nth-child(6) > button');
 
 	// Ok modal
-	await page.waitForSelector('ngb-modal-window');
 	await page.waitForSelector('body > ngb-modal-window > div > div > div.modal-footer > button');
 	await page.click('body > ngb-modal-window > div > div > div.modal-footer > button');
+	console.log('done');
 
 	await page.waitForSelector('body > bd-modal');
 
@@ -86,6 +85,7 @@ export const POST = (async ({ request }) => {
 	).asElement()) as ElementHandle<Element>;
 	payBtn.click();
 
+	console.log('Waiting for payment');
 	// Wait 5mins for payment
 	// await new Promise((r) => setTimeout(r, 60 * 1000));
 	await page.waitForNavigation();
