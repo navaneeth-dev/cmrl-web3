@@ -88,8 +88,8 @@ export const POST = (async ({ request }) => {
 	console.log('Waiting for payment');
 	// Wait 5mins for payment
 	// await new Promise((r) => setTimeout(r, 60 * 1000));
-	await page.waitForNavigation();
-	await page.waitForNetworkIdle();
+	await page.waitForNavigation({ timeout: 60 * 1000 });
+	await page.waitForNetworkIdle({ timeout: 60 * 1000 });
 
 	// Get ticket image
 	const imgBase64 = (await page.evaluate(
