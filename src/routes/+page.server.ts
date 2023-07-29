@@ -6,7 +6,7 @@ export const actions = {
 		const invoiceCreation = {
 			price: 1,
 			store_id: env.PUBLIC_BITCART_STORE_ID,
-			notification_url: env.PUBLIC_ORIGIN + '/api/get-ticket'
+			notification_url: env.PUBLIC_API_URL + '/api/checkTicket'
 			// redirect_url: 'https://go.here.after.checkout.com'
 		};
 
