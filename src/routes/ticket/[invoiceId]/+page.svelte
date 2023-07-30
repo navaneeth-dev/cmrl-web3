@@ -28,7 +28,7 @@
 				loading = true;
 				invoice = await fetchTicket();
 				loading = false;
-			}, 1500);
+			}, 5000);
 		}
 
 		return () => {
