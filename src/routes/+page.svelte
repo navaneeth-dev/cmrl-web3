@@ -15,8 +15,6 @@
 
 	export let form: ActionData;
 
-	const pay = (id: string) => window.bitcart.showInvoice(id);
-
 	onMount(() => {
 		window.bitcart.onModalWillEnter((test) => {
 			console.log(test);
@@ -30,7 +28,7 @@
 		return async ({ result, update }) => {
 			submitting = false;
 			if (result.type === 'success') {
-				pay(result.data?.id);
+				window.bitcart.showInvoice(id);
 			}
 			await update();
 		};
