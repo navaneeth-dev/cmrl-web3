@@ -1,9 +1,18 @@
 <script lang="ts">
-	import { goto } from '$app/navigation';
+	import { goto, invalidate } from '$app/navigation';
 	import Button from '$lib/components/ui/button.svelte';
+	import { onMount } from 'svelte';
 	import type { PageData } from './$types';
 
 	export let data: PageData;
+
+	onMount(() => {
+		const interval = setInterval(() => {
+			invalidate('app:checkTicket');
+		}, 5000);
+
+		return () => clearInterval(interval);
+	});
 </script>
 
 {#if data.invoice.id}
