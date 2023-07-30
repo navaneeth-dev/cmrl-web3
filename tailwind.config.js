@@ -10,7 +10,8 @@ export default {
 				}
 			},
 			fontFamily: {
-				sans: ['Outfit', 'sans-serif']
+				sans: ['Outfit', 'sans-serif'],
+				mono: ['monospace']
 			},
 			animation: {
 				'spin-slow': 'spin 3s linear infinite'
