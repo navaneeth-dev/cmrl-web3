@@ -9,7 +9,7 @@
 {#if data.invoice.id}
 	<main class="h-screen flex flex-col items-center justify-center px-2 max-w-screen-sm mx-auto">
 		<h1 class="text-2xl font-bold">Ticket</h1>
-		<p>Ticket is stored via nft.storage</p>
+		<p class="mt-1">Ticket is stored via nft.storage</p>
 		<div class="my-16 flex flex-col items-center">
 			<img
 				src={`https://${data.invoice.notes}.ipfs.nftstorage.link`}
