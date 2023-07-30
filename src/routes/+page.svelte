@@ -9,6 +9,7 @@
 	import { onMount } from 'svelte';
 	import Spinner from '$lib/icons/Spinner.svelte';
 	import { enhance } from '$app/forms';
+	import { goto } from '$app/navigation';
 
 	const stations = stationList.map((s) => s.Station_ShortName);
 	let submitting = false;
@@ -16,10 +17,11 @@
 	export let form: ActionData;
 
 	onMount(() => {
-		window.bitcart.onModalWillEnter((test) => {
-			console.log(test);
+		window.bitcart.onModalReceiveMessage((event: any) => {
+			if (event?.data?.status === 'complete') {
+				goto(`/ticket/${event.data.invoice_id}`);
+			}
 		});
-		window.bitcart.onModalWillLeave((test) => console.log);
 	});
 
 	const handleSubmit: SubmitFunction = () => {
