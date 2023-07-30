@@ -28,7 +28,7 @@
 		return async ({ result, update }) => {
 			submitting = false;
 			if (result.type === 'success') {
-				window.bitcart.showInvoice(id);
+				window.bitcart.showInvoice(result.data?.id);
 			}
 			await update();
 		};
