@@ -19,6 +19,7 @@
 	onMount(() => {
 		window.bitcart.onModalReceiveMessage((event: any) => {
 			if (event?.data?.status === 'complete') {
+				window.bitcart.hideFrame();
 				goto(`/ticket/${event.data.invoice_id}`);
 			}
 		});
