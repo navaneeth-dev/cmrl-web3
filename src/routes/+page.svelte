@@ -9,7 +9,6 @@
 	import { onMount } from 'svelte';
 	import Spinner from '$lib/icons/Spinner.svelte';
 	import { enhance } from '$app/forms';
-	import { updated } from '$app/stores';
 
 	const stations = stationList.map((s) => s.Station_ShortName);
 	let submitting = false;
