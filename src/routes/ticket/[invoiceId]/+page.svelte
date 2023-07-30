@@ -12,50 +12,74 @@
 		return invoice;
 	};
 
-	type FetchTicketType = ReturnType<typeof fetchTicket> | null;
-	let promise: FetchTicketType = null;
+	let invoice: any | null = null;
+	let loading = true;
 
-	onMount(() => {
-		promise = fetchTicket();
-		const interval = setInterval(() => {
-			console.log('hi');
-			promise = fetchTicket();
-		}, 5000);
+	onMount(async () => {
+		// Fetch once
+		invoice = await fetchTicket();
+		loading = false;
 
-		return () => clearInterval(interval);
+		let interval: ReturnType<typeof setInterval>;
+		// If no invoice and generating
+		if (!invoice) {
+			interval = setInterval(async () => {
+				loading = true;
+				invoice = await fetchTicket();
+				loading = false;
+			}, 1500);
+		}
+
+		return () => {
+			if (interval) clearInterval(interval);
+		};
 	});
 </script>
 
-{#if promise}
-	{#await promise}
-		<main class="h-screen flex flex-col items-center justify-center px-2 max-w-screen-sm mx-auto">
-			<h1 class="text-2xl font-bold">Ticket</h1>
-			<p class="mt-1">Ticket is stored via nft.storage</p>
-			<div class="my-16 flex flex-col items-center">
-				<div class="w-32 h-32 bg-neutral-400 animate-pulse" />
-				<p class="font-mono text-base">Loading...</p>
-			</div>
-			<p class="mb-4">Note: Ticket Validity is 120 mins from the time of entry</p>
-			<Button loading={false} on:click={() => goto('/')}>&leftarrow; Back</Button>
-		</main>
-	{:then invoice}
-		<main class="h-screen flex flex-col items-center justify-center px-2 max-w-screen-sm mx-auto">
-			<h1 class="text-2xl font-bold">Ticket</h1>
-			<p class="mt-1">Ticket is stored via nft.storage</p>
-			<div class="my-16 flex flex-col items-center">
-				<img
-					src={`https://${invoice.notes}.ipfs.nftstorage.link`}
-					alt="Ticket QRCode"
-					class="w-32 h-32"
-				/>
-				<p class="font-mono text-base">{invoice.id}</p>
-			</div>
-			<p class="mb-4">Note: Ticket Validity is 120 mins from the time of entry</p>
-			<Button loading={false} on:click={() => goto('/')}>&leftarrow; Back</Button>
-		</main>
-	{:catch error}
-		<main class="h-screen flex flex-col items-center justify-center px-2 max-w-screen-sm mx-auto">
-			<h1 class="text-2xl font-bold">Ticket Not Found</h1>
-		</main>
-	{/await}
+{#if loading}
+	<main class="h-screen flex flex-col items-center justify-center px-2 max-w-screen-sm mx-auto">
+		<h1 class="text-2xl font-bold">Ticket</h1>
+		<p class="mt-1">Ticket is stored via nft.storage</p>
+		<div class="my-16 flex flex-col items-center">
+			<div class="w-32 h-32 bg-neutral-400 animate-pulse" />
+			<p class="font-mono text-base">Loading...</p>
+		</div>
+		<p class="mb-4">Note: Ticket Validity is 120 mins from the time of entry</p>
+		<Button loading={false} on:click={() => goto('/')}>&leftarrow; Back</Button>
+	</main>
+{:else if invoice.id && invoice.notes}
+	<main class="h-screen flex flex-col items-center justify-center px-2 max-w-screen-sm mx-auto">
+		<h1 class="text-2xl font-bold">Ticket</h1>
+		<p class="mt-1">Ticket is stored via nft.storage</p>
+		<div class="my-16 flex flex-col items-center">
+			<img
+				src={`https://${invoice.notes}.ipfs.nftstorage.link`}
+				alt="Ticket QRCode"
+				class="w-32 h-32"
+			/>
+			<p class="font-mono text-base">{invoice.id}</p>
+		</div>
+		<p class="mb-4">Note: Ticket Validity is 120 mins from the time of entry</p>
+		<Button loading={false} on:click={() => goto('/')}>&leftarrow; Back</Button>
+	</main>
+{:else if invoice.id}
+	<main class="h-screen flex flex-col items-center justify-center px-2 max-w-screen-sm mx-auto">
+		<h1 class="text-2xl font-bold">Ticket</h1>
+		<p class="mt-1">Ticket is stored via nft.storage</p>
+		<div class="my-16 flex flex-col items-center">
+			<img
+				src={`https://${invoice.notes}.ipfs.nftstorage.link`}
+				alt="Ticket QRCode"
+				class="w-32 h-32"
+			/>
+			<p class="font-mono text-base">Generating Ticket: {invoice.id}</p>
+		</div>
+		<p class="mb-4">Note: Ticket Validity is 120 mins from the time of entry</p>
+		<Button loading={false} on:click={() => goto('/')}>&leftarrow; Back</Button>
+	</main>
+{:else}
+	<main class="h-screen flex flex-col items-center justify-center px-2 max-w-screen-sm mx-auto">
+		<h1 class="text-2xl font-bold mb-4">Invalid Ticket</h1>
+		<Button loading={false} on:click={() => goto('/')}>&leftarrow; Back</Button>
+	</main>
 {/if}
