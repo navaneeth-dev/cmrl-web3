@@ -21,8 +21,9 @@
 		loading = false;
 
 		let interval: ReturnType<typeof setInterval>;
-		// If no invoice and generating
-		if (!invoice) {
+
+		// If invoice exists and generating start interval
+		if (invoice?.id && invoice?.notes === '') {
 			interval = setInterval(async () => {
 				loading = true;
 				invoice = await fetchTicket();
