@@ -47,7 +47,7 @@
 		<p class="mt-1">Ticket is stored via nft.storage</p>
 		<div class="my-16 flex flex-col items-center">
 			<div class="w-32 h-32 bg-neutral-400 animate-pulse mb-1" />
-			<p class="font-mono text-base">Loading...</p>
+			<p class="font-mono text-base">Fetching ticket details...</p>
 		</div>
 		<p class="mb-4">Note: Ticket Validity is 120 mins from the time of entry</p>
 		<Button loading={false} on:click={() => goto('/')}>&leftarrow; Back</Button>
