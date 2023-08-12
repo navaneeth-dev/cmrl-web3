@@ -14,22 +14,26 @@
 
 	let invoice: any | null = null;
 	let loading = true;
+	let interval: ReturnType<typeof setInterval>;
 
-	onMount(async () => {
-		// Fetch once
-		invoice = await fetchTicket();
-		loading = false;
+	onMount(() => {
+		const fetchTicketInInterval = async () => {
+			// Fetch once
+			invoice = await fetchTicket();
+			loading = false;
 
-		let interval: ReturnType<typeof setInterval>;
+			// If invoice exists and generating start interval
+			if (invoice?.id && invoice?.notes === '') {
+				interval = setInterval(async () => {
+					loading = true;
+					invoice = await fetchTicket();
+					loading = false;
+					if (invoice.notes) clearInterval(interval);
+				}, 5000);
+			}
+		};
 
-		// If invoice exists and generating start interval
-		if (invoice?.id && invoice?.notes === '') {
-			interval = setInterval(async () => {
-				loading = true;
-				invoice = await fetchTicket();
-				loading = false;
-			}, 5000);
-		}
+		fetchTicketInInterval();
 
 		return () => {
 			if (interval) clearInterval(interval);
