@@ -11,7 +11,8 @@
 	import { enhance } from '$app/forms';
 	import { goto } from '$app/navigation';
 
-	const stations = stationList.map((s) => s.Station_ShortName);
+	const stations = new Map(stationList.map((s) => [s.Station_Id, s.Station_ShortName]));
+
 	let submitting = false;
 
 	export let form: ActionData;
