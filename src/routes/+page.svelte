@@ -11,8 +11,6 @@
 	import { enhance } from '$app/forms';
 	import { goto } from '$app/navigation';
 
-	const stations = new Map(stationList.map((s) => [s.Station_Id, s.Station_ShortName]));
-
 	let submitting = false;
 
 	export let form: ActionData;
@@ -54,11 +52,11 @@
 			<div class="flex flex-col gap-5 mb-16">
 				<div>
 					<p class="mb-6">Origin:</p>
-					<Select values={stations} name="source_station_id" />
+					<Select values={stationList} name="source_station_id" />
 				</div>
 				<div>
 					<p class="mb-6">Destination:</p>
-					<Select values={stations} name="dest_station_id" />
+					<Select values={stationList} name="dest_station_id" />
 				</div>
 			</div>
 			<Button disabled={submitting} loading={submitting}>Make Payment <Cart /></Button>
