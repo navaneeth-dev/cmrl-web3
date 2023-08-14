@@ -53,7 +53,7 @@
 			<p class="mt-1">Ticket is stored via nft.storage</p>
 			<div class="my-16 flex flex-col items-center">
 				<img
-					src={`https://${invoice.notes}.ipfs.nftstorage.link`}
+					src={`https://${invoice.notes.split('|')[1]}.ipfs.nftstorage.link`}
 					alt="Ticket QRCode"
 					class="w-32 h-32"
 				/>
