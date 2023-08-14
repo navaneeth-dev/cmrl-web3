@@ -23,7 +23,7 @@
 			loading = false;
 
 			// If invoice exists and generating start interval
-			if (invoice?.id && invoice?.notes === '') {
+			if (invoice?.id && invoice?.notes === 'generating') {
 				interval = setInterval(async () => {
 					loading = true;
 					invoice = await fetchTicket();
