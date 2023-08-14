@@ -53,11 +53,11 @@
 			<div class="flex flex-col gap-5 mb-16">
 				<div>
 					<p class="mb-6">Origin:</p>
-					<Select values={stations} />
+					<Select values={stations} name="source_station_id" />
 				</div>
 				<div>
 					<p class="mb-6">Destination:</p>
-					<Select values={stations} />
+					<Select values={stations} name="dest_station_id" />
 				</div>
 			</div>
 			<Button disabled={submitting} loading={submitting}>Make Payment <Cart /></Button>
