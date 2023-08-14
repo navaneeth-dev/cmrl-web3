@@ -1,4 +1,4 @@
-export const stationList = [
+export const stationList: [string, string][] = [
 	['0115', 'AG-DMS'],
 	['0213', 'Anna Nagar East'],
 	['0215', 'Anna Nagar Tower'],
