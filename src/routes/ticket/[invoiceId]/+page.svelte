@@ -58,6 +58,7 @@
 					class="w-32 h-32"
 				/>
 				<p class="font-mono text-base">{invoice.id}</p>
+				<pre>{invoice.notes}</pre>
 			</div>
 			<p class="mb-4">Note: Ticket Validity is 120 mins from the time of entry</p>
 			<Button loading={false} on:click={() => goto('/')}>&leftarrow; Back</Button>
