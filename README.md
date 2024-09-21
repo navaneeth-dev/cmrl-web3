@@ -1,15 +1,6 @@
-# CMRL Web3
+<h3 align="center">cmrl-web3</h3>
+<p align="center"><i>Pay for Chennai Metro tickets using cryptocurrency! 💸</em></p>
 
-Pay for Chennai metro tickets with crypto.
-
-![CMRL](https://github.com/navaneeth-dev/cmrl-web3/blob/main/assets/cmrl-web3.png)
-
-## Getting Started
-
-```
-pnpm i
-touch .env
-pnpm dev
-```
-
-`BITCART_URL` -> Base url
+<p align="center">
+    <img src="https://github.com/navaneeth-dev/cmrl-web3/blob/main/assets/cmrl-web3.png" alt="cmrl-web3 website" align="center">
+</p>
