@@ -2,6 +2,8 @@
 
 Pay for Chennai metro tickets with crypto.
 
+![CMRL](https://github.com/navaneeth-dev/cmrl-web3/blob/main/assets/cmrl-web3.png)
+
 ## Getting Started
 
 ```
