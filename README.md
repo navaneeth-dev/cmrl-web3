@@ -1,4 +1,4 @@
-<h3 align="center">cmrl-web3</h3>
+<h2 align="center">cmrl-web3</h2>
 <p align="center"><i>Pay for Chennai Metro tickets using cryptocurrency! 💸</em></p>
 
 <p align="center">
